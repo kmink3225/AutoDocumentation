@@ -1,0 +1,84 @@
+---
+title: "Inserting_Python_Code_into_RMD"
+author: "Kwangmin Kim"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+    html_document: 
+    theme: readable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 참고 사이트
+
+[R Interface to Python](https://rstudio.github.io/reticulate)
+
+ 주피터 노트북을 R에서 사용한다고 생각하면 됨
+
+## reticulate를 이용한 python 코드 삽입
+
+```{r python_code, echo=FALSE}
+#echo는 반드시 FALSE로 지정
+library(reticulate)
+
+# 가상환경 지정
+# use_condaenv("pythonEV",required=T)
+
+# python packages installation
+
+# reticulate::py_install(packages = "matplotlib")
+```
+
+### Python code chunk로 삽입
+
+echo 옵션 기능 확인
+
+```{python test1, echo=T}
+import numpy as np
+
+a=np.arange(5)
+a
+
+```
+
+```{python test2, eval=T, results='hide'}
+b=a**2
+b
+
+```
+
+
+위에서 정의한 벡터 a와 b를 사용하여, 산점도 그리기
+
+```{python testplot, eval=T, echo=F}
+
+import matplotlib.pyplot as plt
+
+plt.scatter(a,b)
+plt.ylabel('some numbers')
+plt.show()
+
+
+```
+
+### python 코드 본문 삽입
+
+py$ 를 붙이고 파이썬 환경에서 저장된 리스트들을 끄집어 내서 써야함
+
+`python a`
+
+본문에 `r py$a`
+
+```{r}
+py$a
+```
+
+ctrl+alt+p: modified python chunk shortcut
+
+```{python}
+
+```
+
+

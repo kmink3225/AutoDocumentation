@@ -1,0 +1,162 @@
+---
+title: "kable_function_usage_RMD"
+author: "Kwangmin Kim"
+date: '2022 1 4 '
+output: 
+    bookdown::pdf_document2:
+        toc: True
+urlcolor: blue
+header-includes:
+- \usepackage{kotex}
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+options(knitr.table.format="latex")
+```
+
+# 테이블 다루기
+
+## 마크다운 테이블 (비추)
+
+간단한 테이블 ok
+
+| : 테이블의 세로선
+- :테이블의 가로선
+
+|이름 |중간고사|기말고사|
+|-----|--------|--------|
+|ISsac|  70    | 70     |
+
+
+## R 코드를 사용해서 테이블 넣는법 (추천)
+
+
+```{r}
+library(palmerpenguins) #요즘 뜨고 있는 R data pakcage
+library(tidyverse)
+penguins$species%>%unique
+
+tab1<-penguins%>%
+    drop_na()%>%
+    count(species,island)
+
+tab1
+```
+
+
+```{r}
+# 종별 부리의 깊이 및 길이
+
+tab2<-penguins%>%
+    drop_na%>%
+    group_by(species)%>%
+    summarise(length_mean=mean(bill_length_mm),
+              depth_mean=mean(bill_depth_mm))
+tab2
+```
+
+
+## kable() 함수를 사용하여 테이블 변환
+
+```{r}
+library(knitr)
+kable(tab1,
+      col.names=c("펭귄종류","서식지","개체수"),
+      caption="펭귄 종류 및 서식지별 숫자", #캡션을 붙이면 표가 자동 중앙 정렬됨
+      align="lrc"#컬럼 정렬: lrc는 컬럼이 3개일 때 첫번째 부터 left, right, center 로 정렬
+      )
+```
+
+### booktab 옵션으로 테이블 예쁘게 만들기
+```{r}
+kable(tab1,
+      col.names=c("펭귄종류","서식지","개체수"),
+      caption="펭귄 종류 및 서식지별 숫자", #캡션을 붙이면 표가 자동 중앙 정렬됨
+      align="lrc",#컬럼 정렬: lrc는 컬럼이 3개일 때 첫번째 부터 left, right, center 로 정렬
+      booktab=TRUE
+      )
+```
+
+
+```{r}
+kable(tab2,
+      col.names=c("펭귄종류","부리길이 평균","부리깊이 평균"),
+      caption="펭귄 종류별 부리정보", #캡션을 붙이면 표가 자동 중앙 정렬됨
+      align="ccc"#컬럼 정렬: lrc는 컬럼이 3개일 때 첫번째 부터 left, right, center 로 정렬
+      )
+```
+
+### 테이블 나오는 위치 설정하기
+
+`position = "!ht"` or `position = "!h"` 를  사용해서 테이블이 나오는 위치를 확정할 수 있음
+`position = "!h"` 설정없이 knit를 하면 아래의 칸이 모자라면 테이블을 밑으로 임의로 내려버림
+`ih` : here
+`it` : top
+`ib` : bottom
+하나 더 있음 까먹음
+
+```{r}
+kable(tab1,position = "!ht",
+      col.names=c("펭귄종류","서식지","개체수"),
+      caption="펭귄 종류 및 서식지별 숫자", #캡션을 붙이면 표가 자동 중앙 정렬됨
+      align="lrc"#컬럼 정렬: lrc는 컬럼이 3개일 때 첫번째 부터 left, right, center 로 정렬
+      )
+```
+
+
+```{r}
+kable(tab2,position = "!ht",
+      col.names=c("펭귄종류","부리길이 평균","부리깊이 평균"),
+      caption="펭귄 종류별 부리정보", #캡션을 붙이면 표가 자동 중앙 정렬됨
+      align="ccc"#컬럼 정렬: lrc는 컬럼이 3개일 때 첫번째 부터 left, right, center 로 정렬
+      )
+```
+
+### for loop을 이용한 여러 테이블 출력
+
+```{r results='asis'}
+penguins_species<-penguins$species%>%unique()
+for(i in penguins_species){
+    mytab<-penguins %>% filter(species==i)%>%head()
+    kable(mytab,position="!ht",booktab=TRUE, caption=paste("Data Head of ", i))%>%print()
+    cat("\n\n")
+}
+```
+
+
+### 테이블을 여러개 한줄 출력
+
+```{r}
+kable(list(tab1,tab2),
+      caption="표 한줄에 여러개 출력하기",
+      valign="t",
+      booktab=TRUE)# 첫 청크에 북탭옵션 일괄적용할 수 있다.
+```
+
+### python에서 테이블 출력하기
+
+```{r}
+library(reticulate)
+```
+
+```{python}
+import pandas as pd
+penguins=pd.DataFrame(r.penguins) #r에 저장되어 있는 penguins를 불러올 수 있다.
+```
+
+```{python}
+penguins = penguins[~penguins.isnull().any(axis=1)] #null 안지 확인하고 아닌 경우에만 출력
+tab3=penguins.mean(axis=0) # 정량적인 컬럼에 접근해서 평균 내기
+tab3
+```
+
+```{r}
+py$tab3%>%kable(booktab=TRUE,col.names = c("평균값"))
+```
+
+참고문헌
+*[R markdown Cookbook](https://bookdown.org/yihui/rmarkdown-cookbook/tables.html)
+    *심화 내용 kableEXtra Package 확인 

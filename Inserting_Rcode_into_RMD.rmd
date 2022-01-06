@@ -1,0 +1,79 @@
+---
+title: "Inserting_Rcode_into_RMD"
+author: "Kwangmin Kim"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+    html_document: 
+    theme: readable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE) #코드 청크 옵션
+knitr::opts_chunk$set(message = TRUE)
+knitr::opts_chunk$set(warning = TRUE)
+library(tidyverse)
+```
+
+## R code 삽입 방법
+
+### 코드 청크로 삽입
+
+echo 옵션 기능 확인
+
+```{r testcodeWtrue,echo=T}
+#{chunk_type, chunk_name, option}
+a<- 1:5
+a
+```
+
+```{r testcodeWfalse,echo=F}
+#{chunk_type, chunk_name, option}
+a<- 1:5
+a
+```
+
+eval 옵션 기능 확인
+
+```{r testcodeEvalTrue, eval=T}
+result1<-mean(a)
+```
+
+
+```{r testcodeEvalFalse, eval=F}
+result2<-median(a)
+```
+
+```{r}
+result1
+#result2 객체는 찾을 수 없음 
+```
+
+연산 결과 숨김
+
+```{r testcodeREsultoption, eval=T, results='hide'}
+b<-1:100
+b
+```
+
+### 본문안에 삽입
+
+본문을 작성 중입니다. R code 삽입은 shift+~로 한다.  
+
+`r 1:5`
+
+`r result1`
+
+```{r}
+format(Sys.time(), '%B %d, %Y')
+```
+
+knitting memory와 code chunk memory가 따로 할당되어 있음
+
+chunk option을 각 청크마다 선택해주기 귀찮으면 맨위의 코드 청크에 명령어로 입력하면 밑의 청크에 일괄 적용 된다.
+data와 visualization에 탁월한 R을 HTML에 담아내는 것은 powerful 인것임
+간편하게 rstudio add-in을 통해 코드 청크에 ggplot을 넣어주면 간편하게 시각화가 이루어짐
+data 분석~ reporting까지의 workflow가 smooth하게 진행됨.
+
+
+
+

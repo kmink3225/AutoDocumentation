@@ -1,0 +1,98 @@
+---
+title: "inserting_math_latex_into_RMD"
+author: "Kwangmin Kim"
+date: '2022 1 4 '
+output: 
+    bookdown::pdf_document2:
+        toc: True
+header-includes:
+- \usepackage{kotex}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Rmd 파일에 수식하는 입력하는 방법
+## 본문 내에 삽입하는 방법 (inline mode)
+
+`$` 기호를 사용하여, 묶어준다. 예를 들어, $y=f(x)$ 라는 것을 문장안에 넣어 보자.
+
+## 본문과 독립적으로 삽입하는 방법 (display mode)
+
+`$$` 기호를 사용하여 묶어 준다. 예를 들어, 
+$$
+y=f(x)
+$$ 라는 것을 문장안에 넣어 보자.
+
+# 수식을 여러줄 입력하는 방법
+
+여러 줄의 수식을 입력할 경우에는 `aligned`라는 레이택 환경을 이용한다.
+
+1. `$$`기호로 display mode를 만든다.
+2. `aligned` 환경을 만들어준다.
+3. `\\`를 사용하여 줄 바꿈 해준다.
+
+$$
+f(x, y) = x^2 + \sqrt{y^3} \\
+g(x) = x^3 + x^2 + 3x + 5
+$$
+위의 레이택 아웃풋이 html에서는 2줄로 pdf에서는 한줄로 나올 것임.
+*R studio의 수식 미리보기 기능은 mathjax이라는 프로그램을 쓰는데 latex와는 별개의 프로그램
+
+줄 바꿈 명령어를 먹히게 하기 위해선
+
+$$ 
+\begin{aligned}
+f(x, y) = x^2 + \sqrt{y^3} \\
+g(x) = x^3 + x^2 + 3x + 5
+\end{aligned}
+$$
+
+## 여러 줄 입력시 정렬 기준 정하기
+
+정렬 기준을 `&`을 사용하여 정해주면 그 곳을 기준으로 정렬이 된다.
+
+$$ 
+\begin{aligned}
+f(x, y) &= x^2 + \sqrt{y^3} \\
+g(x) &= x^3 + x^2 + 3x + 5
+\end{aligned}
+$$
+
+# 입력한 수식에 번호 부여하기
+
+## `aligned` 환경에서의 수식 번호 부여
+
+입력한 수식에 번호를 부여하기 위해서 `equation` 환경과 `aligned`를 사용하여 수식을 입력한다. [Bookdown 설명서 수식 입력 부분 참조](https://https://bookdown.org/yihui/bookdown/markdown-extensions-by-bookdown.html)
+
+`(\#eq:myequ)` 태그를 사용하여 라베링을 해준다. 단, 현재 프리뷰 지원 불가. (미리보기를 하고싶으면 `$$`를 식의 처음과 끝에 입력 하지만 rendering에서는 오류 발생. 왜냐면 사실 `$$` = `\begin` & `\end` 와 같기 때문.)
+
+\begin{equation} 
+\begin{aligned}
+f(x, y) &= x^2 + \sqrt{y^3} \\
+g(x) &= x^3 + x^2 + 3x + 5
+\end{aligned}
+(\#eq:myequ)
+\end{equation}
+
+## `align` 환경에서의 수식 번호 부여
+
+수식 줄별로 번호 부여 (현재 미리 보기 기능 지원 불가)
+각 각 수식 별로 번호 부여 가능 using `(\#eq:myequ숫자)`
+
+\begin{align}
+f(x, y) &= x^2 + \sqrt{y^3} \notag \\
+g(x) &= x^3 +x^2 + 3x + 5 (\#eq:myequ2) \\
+h(x) &= sin(x)+cos(x) (\#eq:myequ3)
+\end{align}
+
+## 본문에서 수식 언급하기
+
+본문에서 수식을 언급할 때에는 `\@ref`라는 태그를 이용하고, 수식의 라벨 (부여된 이름)은 꼭 `eq:`로 시작해야만 한다.
+
+Equation labels must start with the prefix eq: in bookdown. All labels in bookdown must only contain alphanumeric characters, :, -, and/or /. Equation references work best for LaTeX/PDF output, and they are not well supported in Word output or e-books. For HTML output, bookdown can only number the equations with labels. Please make sure equations without labels are not numbered by either using the equation* environment or adding `\nonumber` or `\notag` to your equations. The same rules apply to other math environments, such as eqnarray, gather, align, and so on (e.g., you can use the align* environment).
+
+식 `\@ref(eq:myequ3)`에 따르면, 우리는 다음을 알 수 있다.
+
+식 \@ref(eq:myequ3)에 따르면, 우리는 다음을 알 수 있다.

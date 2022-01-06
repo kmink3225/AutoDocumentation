@@ -1,0 +1,121 @@
+---
+author: kmkim
+date: '`r format(Sys.Date())`'
+title: PPT_markdown_Xaringan
+subtitle: RMD Syntax & Xaringan
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+제일 윗 R청크는 rmd의 global 설정 부분으로  
+* 모든 코드 chunk에 기본 설정은 제일 첫 코드 청크에서 설정
+
+
+## R markdown
+
+R + Markdown = Literate programming in R
+* Programming Language + Documentation Language
+* 프로그래밍을 사람이 문학 작품 읽듯이 쉽게 만들자
+* 누구든지 나의 코드를 재현 (reproducible) 할 수 있도록 만듦
+* knitr 패키지 이용
+* .rmd 확장자
+* R, python 둘 다 사용가능
+* 여러 언어들을 사용하여 결과물을 문서에 집어 넣기 가능 
+
+---
+
+## Rmd 문서 구성
+
+문서 설정 부분
+* 문서의 맨앞에 ---로 묶여 있음 
+* YAML 문법을 사용해서 문서 설정 가능
+* 제목과 저자 날짜 그리고 결과물 설정
+    * title: "데이터 분석"
+    * author: "Kwangmin Kim"
+    * output: `html_document`
+* `ymlthis` 패키지를 설치해서 쉽게 사용 가능
+    * ymlthis 패키지 설치
+    * add-in 을 통한 yaml 간편 작성 : yaml 검색
+    * write new R markdown or yaml file
+        * toc: table of contents, 인덱스 형식으로 클릭하면 해당 섹션으로 이동
+        * 여러 옵션 설정 가능
+        * 옵션 설정 완류 후 done 클릭 > 옵션에 맞게 yaml자동완성
+
+---
+## R chunk 넣기
+
+R programming 가능
+
+```{r}
+1+2 
+```
+
+* `option`들 의미
+    * `echo` : 코드를 rmd에 삽입 여부
+    * `eval` : 코드 실행 여부
+    * `ctrl+alt+I` : R 청크 넣기
+    * `ctrl+alt+R` : rmd 전체 코드 돌리기
+    * `ctrl+alt+P` : 커서를 R 청크 안에 넣고 누르면 해당 R청크 윗 R청크 모두 돌리기
+    * `ctrl+alt+F10` : R 재시작
+
+---
+## Xaringan 패키지 설치 및 맛보기  
+
+사륜안 패키지  
+`install.packages("xaringan")`  
+* R을 사용한 웹 PPT를 제작해 주는 패키지
+
+---
+## PPT 템플릿 불러오기
+
+* `File>New File>Rmarkdown>From Template>>Ninja Presentation`
+
+이 아랫 부분이 ppt로 만드는 yaml 문법
+
+ output:  
+ xaringan::moon_reader:  
+     lib_dir: libs  
+     nature:  
+       highlightStyle: github  
+       highlightLines: true  
+       countIncrementalSlides: false  
+
+---
+## 슬라이드 옵션 기능
+
+* 구분자: `---`
+
+* 정렬 : 페이지 Class 부여  
+    * class:무언가를 적으면 class 기능이 적용됨
+    * center(가로선 가운데 정렬)
+    * middle (세로선 가운데 정렬) 
+
+* class 적용 방식과 나만의 class 적용 방식 만드는 법 업데이트 될 것
+* 수정 사항 실시간 출력 : add-in > infinite moon reader (실시간 knitting)
+* infinite moon reader (실시간 knitting) 기능 끄기  
+    * r console에 servr::daemon_stop(1) or servr::daemon_stop(2) 입력
+* 애니매이션 기능 : `--` 두개를 넣어 다음에 나올 내용을 숨김
+
+--
+
+예시  
+
+-- 
+
+이게 나온다.
+
+--
+## 사람들에게 Rmd PPT 배포용 인쇄
+
+`환경panel>Files> ppt.rmd 좌클릭> View in web browser> browser menu > print > pdf print`
+
+`officer R package: rmd ppt 를 ms ppt로 바꿀 수 있음`

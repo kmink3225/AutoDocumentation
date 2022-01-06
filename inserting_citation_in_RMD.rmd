@@ -1,0 +1,155 @@
+---
+title: "inserting_citation_in_RMD"
+author: "Kwangmin Kim"
+date: '2022 1 5 '
+output: 
+    bookdown::pdf_document2:
+        toc: TRUE
+urlcolor: blue
+header-includes:
+- \usepackage{kotex}
+bibliography: references.bib
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE,message = FALSE)
+```
+
+## 참조링크 넣기
+
+기본적으로 사용되는 문법은 간단
+`\@ref(넣고 싶은 객체 종류(수식, 테이블, 그림 등) : 태그)`
+
+## 수식 참조
+
+```{=tex}
+\begin{equation}
+\begin{aligned}
+f(x, y) &= x^2+ \sqrt{x^3} \\
+g(x) &= x^3 +x^2 +3x + 5 
+\end{aligned}
+(\#eq:myequ)
+\end{equation}
+```
+`myequ = label`
+
+그래서 본문에 수식 붙일때 (1)번 수식에 myequ 레이블을 붙여 놨는데
+`\@ref(eq:myequ)` 를 삽입하면 참조링크가 만들어진다 예)
+\@ref(eq:myequ)에 의하여 다음과 같이 설명된다
+
+## 그림 참조
+
+```{r myfigure, echo=FALSE, fig.cap="그림 설명 부분", fig.align='center', out.width='50%'}
+knitr::include_graphics("figure1.png")
+
+```
+
+그림 \@ref(fig:myfigure)을 살펴보자
+
+## 테이블 넣기
+
+```{r palmer}
+library(tidyverse)
+library(palmerpenguins)
+library(knitr)
+tab1 <- penguins%>%
+    drop_na()%>%
+    count(species,island)
+tab1%>% kable(
+    col.names =c("펭귄 종류","서식지","개체수"),
+    caption="펭귄 종류 및 서식지별 숫자",
+    align="lrc")
+
+
+```
+
+테이블 \@ref(tab:palmer)을 살펴보자.
+
+# 참고문헌 넣기
+
+참고부문을 넣기 위한 페이퍼 정보를 모아놓은 데이터베이스가 존재해야함 그
+DB안에서 정보를 끌어와서 인용을 해야함 DB 확장자 명은 bib = bibliography
+`.bib`와 rmd 파일을 엮도록하는 작업 : yaml에 bibliography:
+references.bib 추가 문서 설정부분에 다음과 같이 참고문헌 추가
+
+## bibliography DB 생성
+
+`bibliography: references.bib`
+
+### Writing bib
+
+```{r write_bib}
+# knitr::write_bib(file = 'references.bib')
+```
+
+`knitr::write_bib(file = 'references.bib')`
+
+### Rstudio 이용
+
+메뉴 탭 \> file \> text file \> references.bib 생성
+
+## bibliography DB에 복붙할 paper Data 다운로드
+
+1.  google scholar에서 구글링
+2.  논문 선택후 cite 링크 클릭
+3.  BiTex 클릭 -\> ctrl + A -\> ctrl+ c -\> ctrl+v into references.bib
+
+## Paper의 BiTex예시
+
+`@inproceedings`{chintagunta2021medically, title={Medically Aware GPT-3
+as a Data Generator for Medical Dialogue Summarization},
+author={Chintagunta, Bharath and Katariya, Namit and Amatriain, Xavier
+and Kannan, Anitha}, booktitle={Proceedings of the Second Workshop on
+Natural Language Processing for Medical Conversations}, pages={66--76},
+year={2021} }
+
+키워드 : chintagunta2021medically
+
+삽입 형식: `[@키워드]`
+
+-   기본 : 문장 끝에 삽입
+
+GPT2가 medical 분야에서도 사용 될 수있다.[@chintagunta2021medically].
+
+-   기본 + 페이지 추가 (특정 페이지 구간 언급)
+
+GPT2가 medical 분야에서도 사용 될 수있다.[@chintagunta2021medically, pp.
+22].
+
+-   여러 페이퍼 인용
+
+GPT2가 medical 분야에서도 사용 될 수있다.[@chintagunta2021medically;
+@tidyverse2019].
+
+-   문장 끝에 년도 인용 (저자 빼고)
+
+chintagunta은 GPT2가 이용될 수 있다고
+주장했다[-@chintagunta2021medically].
+
+-   문장 안 언급 (저자에는 괄호를 붙이지 않고 년도에만 괄호를 붙임)
+
+@chintagunta2021medically는 다음과 같은 주장을 하였다.
+
+# Visual Editor Citation
+
+이번 Rstudio v1.4 Preview부터 Zotero와 Visual editor를 사용하여 논문을
+쓰는 것을 권장장
+
+insert \> Web Journal 선택 \> paper 선택 (shift+마우스 좌클릭)
+
+[@Zichová2020; @Henderson2021]
+
+알아볼 예정
+
+## Package 참조하기
+
+To cite an R package, you can use the function citation() from base R.
+If you want to generate a citation entry for BibTeX, you can pass the
+returned object of citation() to toBibtex(),
+
+`toBibtex(citation("xaringan"))`
+
+## 참고문헌
