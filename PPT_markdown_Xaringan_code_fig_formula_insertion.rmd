@@ -49,10 +49,12 @@ options(htmltools.dir.version = FALSE)
     * `fig.align` : 그림 정렬. ex> "center"
     * `out.width` : 그림 크기 조정. ex> "95%"
 
->```
->{`r` echo=FALSE, fig.cap="", fig.align="center", out.width = "95%"}
->knitr::include_graphics("url") 
->```
+````markdown
+```
+{`r` echo=FALSE, fig.cap="", fig.align="center", out.width = "95%"}`r ''`
+knitr::include_graphics("url") 
+```
+````
 
 ```{r echo=FALSE, fig.cap="", fig.align="left", out.width = "10%"}
 knitr::include_graphics("https://cdn-icons.flaticon.com/png/512/670/premium/670800.png?token=exp=1641452636~hmac=5b0d4053948ad919e91ebde730055acc") 
@@ -140,12 +142,4 @@ $$
 * 페이지에 대한 속성을 결정하는 클래스를 활용
 > class: left, top
 
-* 인라인 r코드를 활용하여 `rmarkdown::metadata` 끌어오기
-># `r rmarkdown:metadata$title`
-`----`
->## `r rmarkdown:metadata$subtitle`
->### `r rmarkdown:metadata$institute`
->### `r rmarkdown:metadata$author`
->
->
-43`22
+* 인라인 r코드를 활용하여 "rmarkdown::metadata" 끌어오기
