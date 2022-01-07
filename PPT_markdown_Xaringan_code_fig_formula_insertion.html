@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>PPT_markdown_Xaringan:code_fig_formula_insertion</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Kwangmin Kim" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# PPT_markdown_Xaringan:code_fig_formula_insertion
+## Xaringan_code_fig_formula_insertion
+### Kwangmin Kim
+### R studio, R
+### 2021/01/06 (updated: 2022-01-06)
+
+---
+
+
+
+
+## 문서 속성 설정하기
+
+**RMD yaml 제목은 한글로 쓰지말것**
+
+* 추천 슬라이드 설정
+  * 슬라이드 비율 설정
+  * 코드 하이라이트 스타일 설정
+  
+  output:  
+  xaringan::moon_reader:  
+    lib_dir: libs  
+    nature:  
+      highlightStyle: googlecode  
+      highlightLines: true
+      highlightLanguage: ["r"]
+      countIncrementalSlides: false  
+        ratio: "16:9"
+
+---
+
+## 그림 넣는 방법
+
+* R 코드 사용해서 넣기
+  * `knitr::include_grpahics() 함수를 사용 (항상!)`
+  * 관련 옵션
+    * `fig.cap`: 그림 캡션
+    * `fig.align` : 그림 정렬. ex&gt; "center"
+    * `out.width` : 그림 크기 조정. ex&gt; "95%"
+
+````markdown
+```
+{`r` echo=FALSE, fig.cap="", fig.align="center", out.width = "95%"}
+knitr::include_graphics("url") 
+```
+````
+
+&lt;img src="https://cdn-icons.flaticon.com/png/512/670/premium/670800.png?token=exp=1641452636~hmac=5b0d4053948ad919e91ebde730055acc" width="10%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+
+## 그림 2개 넣는 방법
+
+* R 청크 옵션
+  * 청크 옵션 중 `fig.show` 옵션을 `hold`로 설정
+
+* 그림 나란히 붙이기: center 정렬은 그림 나란히 붙지가 않음
+
+&lt;img src="https://cdn-icons.flaticon.com/png/512/670/premium/670800.png?token=exp=1641452636~hmac=5b0d4053948ad919e91ebde730055acc" width="10%" height="180px" style="display: block; margin: auto auto auto 0;" /&gt;&lt;img src="https://as2.ftcdn.net/v2/jpg/01/37/81/25/1000_F_137812568_Iv5FAX2A7frJpCyksDrQmBpXBxQSTGtb.jpg" width="10%" height="180px" style="display: block; margin: auto auto auto 0;" /&gt;
+
+* 그림 자동 삽입 설정 : snippet
+  * `menu &gt; tools &gt; global option&gt; code &gt; edit snippets &gt; markdown &gt; customized snippet 키워드 및 코드 작성`
+  * 실행 shortcut 만들기 : `tools&gt; modify keyboard shortcuts &gt; 검색창에 snippet 입력 &gt; insert snippet란에 단축키 생성`
+  * 실행 : R chunk에서 `키워드 + shift + space bar`
+
+--- 
+
+## 수식 입력하기
+
+* xaringan을 사용하는 2번째 이유
+  * `rmd`파일은 `LaTex`코드를 사용해서 수식을 입력할 수 있음
+    * `$x$` : inline 문장 안에 수식 삽입 `\(x\)`
+    * `$$x$$` : 문장과 독립적으로 디스플레이용 삽입 `$$x$$`
+    * R studio에서는 Addins 중 `Input LaTex math`를 사용 (일반적 but 비추천)
+* LyX라는 프로그램 사용 추천 
+  * LaTeX 문서작성 프로그램 : LaTex의 IDE, LaTex Preview Program 의 끝판왕
+  * 수식 입력 프로그램 : [LyX](https://lyx.org)
+    * 운영체제에 맞는 Lyx 프로그램 download 받을것
+    * 설치시 : Lyx 경로 할당 부분에 Rmd를 쓸 경우 Don't use LaTex 체크할 것
+        * 왜냐면 LaTex를 깔지 않았고 tinyTax를 깔았기 때문
+  * `WYSIWYG` - "What you see is What you get" 을 지향
+  * Rmd와의 호환성 우수 
+  
+---
+
+## LyX 기본 사용법
+
+`LaTex 코드를 읽을 수 있는 가장 빠른 방법`
+
+LyX의 수식 입력 모드를 통해서 LaTex 코드를 빨리 익힐 수 있음.
+1. LyX 프로그램 연다 (rmd 아님)
+1. `Ctrl + shift + M (디스플레이 수식 모드) 활성화
+1. `View &gt; toolbar &gt; standard, view/update, extra, table, math, mathe panel, normal-sized icons` 활성화
+1. `View &gt; code preview pane` 활성화
+1. 수학관련 Toolbar 활성화
+1. `수학 수식들 입력하는 방법을 공부` 
+    1. LyX에서 자동 완성 기능 제공 : latex 코드 복사하여 rmd에 붙이면 편함
+    1. latex 공식 입력후 tab 하면 preview 출력
+1. 모든 greek letter와 수학 기호에 단축키가 제공되어 수식 빨리 입력 가능
+1. 유용한 latex shortcut
+    * `\sim` : 물결 표시
+    * alt + m + 괄호 : 숫자 크기에 맞추어 괄호 입력됨
+
+$$
+`\begin{align*}
+f(x) &amp; =x^{2}+2\\
+g(x) &amp; =2x-1\\
+A &amp; =\left(\begin{array}{ccccc}
+1 &amp; 2 &amp; 3 &amp; 4 &amp; 5\\
+\\
+ &amp;  &amp;  &amp; 6\\
+\\
+ &amp;  &amp;  &amp; 7
+\end{array}\right)
+\end{align*}`
+$$
+    
+
+---
+
+## 나만의 타이틀 페이지 꾸미기
+
+클래스 활용
+* 문서 속서 태그에 타이틀 페이지 옵션 비활성화
+    * seal:false
+* 페이지에 대한 속성을 결정하는 클래스를 활용
+&gt; class: left, top
+
+* 인라인 r코드를 활용하여 "rmarkdown::metadata" 끌어오기
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "googlecode",
+"highlightLines": true,
+"highlightLanguage": "r",
+"countIncrementalSlides": false,
+"seal": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
